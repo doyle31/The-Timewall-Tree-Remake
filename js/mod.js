@@ -13,8 +13,8 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "1.2",
-	name: "Timewall Power Update",
+	num: "1.2.1",
+	name: "Translation Update (Part. I)",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
@@ -71,7 +71,15 @@ let changelog = `<h1>Changelog:</h1><br>
 		- Added more contents in QqQe308 and qaqe308 layer.<br>
 		- Some other changes.<br>
 		- Endgame: Reach 1.80e308 Infinity Points<br>
-		- Note: Some of the contents might contain a large timewall. Please use Speed-up at any time.<br>`
+		- Note: Some of the contents might contain a large timewall. Please use Speed-up at any time.<br>
+	<h3>v1.2.1 Translation Update (Part. I) 2026/3/7</h3><br>
+		- Added language setting, and you can play this game in Chinese now!<br>
+		- Completed the translation of T and Q layer.<br>
+		- Note: Some things won't be translated, such as currency name.<br>
+		Chinese version:<br>
+		- 增加语言设置，现在这个游戏适配中文了！<br>
+		- 目前已完成翻译的层级：T，Q<br>
+		- 注意:资源名称等一些物品不会被翻译。<br>`
 
 let winText = `Congratulations! You have reached the end and beaten this game, but for now...`
 
@@ -121,7 +129,7 @@ var displayThings = [
 // Determines when the game "ends"
 function isEndgame() {
 	//return hasUpgrade('ST',54)
-	return player.I.points.gte(n(2).pow(1024))
+	return false
 	//return player.points.gte(new Decimal("e280000000"))
 }
 

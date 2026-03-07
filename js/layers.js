@@ -640,6 +640,8 @@ addLayer("T", {
     row: 1, // Row the layer is in on the tree (0 is the first row)
     prestigeButtonText(){a='Reset for '+format(tmp.T.getResetGain)+' Timewalls'
         if(tmp.T.getResetGain.lt(1)) a=a+'<br>You need 50 PP, 5 PPM and 1 PEF to reset'
+        if(options.Chinese){a='重置以获得 '+format(tmp.T.getResetGain)+' 时间墙'
+        if(tmp.T.getResetGain.lt(1)) a=a+'<br>你需要50个PP,5个PPM和1个PEF以进行重置'}
         return a
      },
     getResetGain(){x=getBuyableAmount('T',11)
@@ -764,14 +766,20 @@ addLayer("T", {
     upgrades: {
         11: {
             title: "T1-1",
-            description: "Unlock a Clickable and 3 Buyables.",
+            description() {a="Unlock a Clickable and 3 Buyables."
+                if(options.Chinese) a='解锁1个可点击与3个可购买'
+                return a
+            },
             cost(){
                 a=n(0)
             return a},
         },
         21: {
             title: "T2-1",
-            description: "Multiply Point Producer base effect based on total Timewall.",
+            description() {a="Multiply Point Producer base effect based on total Timewall."
+                if(options.Chinese) a='基于总时间墙增益点数生产器效果'
+                return a
+            },
             unlocked(){return player.T.total.gte(1)},
             effect(){a=player.T.total.add(1).pow(0.5).times(player.T.total.add(1).log(10).add(1))
                 b=n(0.5)
@@ -790,7 +798,10 @@ addLayer("T", {
         },
         22: {
             title: "T2-2",
-            description: "Multiply Point Producer base effect based on Point Producer bought.",
+            description() {a="Multiply Point Producer base effect based on Point Producer bought."
+                if(options.Chinese) a='基于购买的点数生产器数量增益点数生产器效果'
+                return a
+            },
             unlocked(){return player.T.total.gte(1)},
             effect(){a=getBuyableAmount('T',11).times(0.05).add(1)
                 //if(a.gte(4))a=a.div(4).pow(0.5).times(4)
@@ -803,7 +814,10 @@ addLayer("T", {
         },
         23: {
             title: "T2-3",
-            description: "The effect of Point Producer Multiplier is raised to ^1.5.",
+            description() {a="The effect of Point Producer Multiplier is raised to ^1.5."
+                if(options.Chinese) a='点数生产加成器效果变为1.5次方'
+                return a
+            },
             unlocked(){return player.T.total.gte(1)},
             //effect(){return getBuyableAmount('T',11).pow(0.2)},
             //effectDisplay(){return format(this.effect())+'x'},
@@ -813,7 +827,10 @@ addLayer("T", {
         },
         24: {
             title: "T2-4",
-            description: "Multiply Point Producer Multiplier base effect based on Point Producer Multiplier bought.",
+            description() {a="Multiply Point Producer Multiplier base effect based on Point Producer Multiplier bought."
+                if(options.Chinese) a='基于购买的点数生产加成器数量增益点数生产加成器效果'
+                return a
+            },
             unlocked(){return player.T.total.gte(1)},
             effect(){return getBuyableAmount('T',12).times(0.1).add(1)},
             effectDisplay(){return format(this.effect())+'x'},
@@ -823,7 +840,10 @@ addLayer("T", {
         },
         31: {
             title: "T3-1",
-            description: "Unlock Automation and a side layer.",
+            description() {a="Unlock Automation and a side layer."
+                if(options.Chinese) a='解锁自动化与一个支线层级'
+                return a
+            },
             unlocked(){return hasUpgrade('T',21)&&hasUpgrade('T',22)&&hasUpgrade('T',23)&&hasUpgrade('T',24)},
             effect(){a=n(1)
                     return a
@@ -835,7 +855,10 @@ addLayer("T", {
         },
         32: {
             title: "T3-2",
-            description: "Give free Point Producers based on Point Producer Multiplier bought.",
+            description() {a="Give free Point Producers based on Point Producer Multiplier bought."
+                if(options.Chinese) a='基于购买的点数生产加成器获得免费的点数生产器'
+                return a
+            },
             unlocked(){return hasUpgrade('T',21)&&hasUpgrade('T',22)&&hasUpgrade('T',23)&&hasUpgrade('T',24)},
             effect(){return getBuyableAmount('T',12)},
             effectDisplay(){return '+'+format(this.effect())},
@@ -846,7 +869,10 @@ addLayer("T", {
         },
         33: {
             title: "T3-3",
-            description: "Your points will not decrease and will not be less than 25.",
+            description() {a="Your points will not decrease and will not be less than 25."
+                if(options.Chinese) a='你拥有25的保底点数，且购买东西不会消耗点数'
+                return a
+            },
             unlocked(){return hasUpgrade('T',21)&&hasUpgrade('T',22)&&hasUpgrade('T',23)&&hasUpgrade('T',24)},
             effect(){a=n(1)
                     return a
@@ -858,7 +884,10 @@ addLayer("T", {
         },
         34: {
             title: "T3-4",
-            description: "Unlock challenges.",
+            description() {a="Unlock challenges."
+                if(options.Chinese) a='解锁挑战'
+                return a
+            },
             unlocked(){return hasUpgrade('T',21)&&hasUpgrade('T',22)&&hasUpgrade('T',23)&&hasUpgrade('T',24)},
             effect(){a=n(1)
                     return a
@@ -870,7 +899,10 @@ addLayer("T", {
         },
         41: {
             title: "T4-1",
-            description: "Point Producer cost scaling 1.15x -> 1.10x",
+            description() {a="Point Producer cost scaling 1.15x -> 1.10x"
+                if(options.Chinese) a='点数生产器花费折算降低为1.1x（原1.15x）'
+                return a
+            },
             unlocked(){return hasUpgrade('Q',14)},
             effect(){a=n(1)
                     return a
@@ -882,7 +914,10 @@ addLayer("T", {
         },
         42: {
             title: "T4-2",
-            description: "Point Exponent Factory is twice effective.",
+            description() {a="Point Exponent Factory is twice effective."
+                if(options.Chinese) a='点数指数因子的效果翻倍'
+                return a
+            },
             unlocked(){return hasUpgrade('Q',14)},
             //effect(){return getBuyableAmount('T',12).times(0.1).add(1)},
             //effectDisplay(){return format(this.effect())+'x'},
@@ -892,7 +927,10 @@ addLayer("T", {
         },
         43: {
             title: "T4-3",
-            description: "Give free Point Producer Multipliers based on Point Exponent Factory bought.",
+            description() {a="Give free Point Producer Multipliers based on Point Exponent Factory bought."
+                if(options.Chinese) a='基于购买的点数指数因子获得免费的点数生产加成器'
+                return a
+            },
             unlocked(){return hasUpgrade('Q',14)},
             effect(){return getBuyableAmount('T',13)},
             effectDisplay(){return '+'+format(this.effect())},
@@ -903,7 +941,10 @@ addLayer("T", {
         },
         44: {
             title: "T4-4",
-            description: "Unlock next layer.",
+            description() {a="Unlock next layer."
+                if(options.Chinese) a='解锁下一个层级'
+                return a
+            },
             unlocked(){return hasUpgrade('Q',14)},
             //effect(){return getBuyableAmount('T',12).times(0.1).add(1)},
             //effectDisplay(){return format(this.effect())+'x'},
@@ -914,16 +955,27 @@ addLayer("T", {
     },
     clickables:{
         11: {
-            title: "Pause",
-            display() {return "Click to Pause, Click Again to Unpause"},
+            title() {a="Pause"
+                if(options.Chinese) a='暂停'
+                return a
+            },
+            display() {a="Click to Pause, Click Again to Unpause"
+                if(options.Chinese) a='点击以暂停，再次点击以恢复'
+                return a
+            },
             canClick() {return true},
             onClick() {player.T.pause = player.T.pause.add(1)
                 if (player.T.pause.gt(1)) player.T.pause = n(0)
             },
         },
         12: {
-            title: "+1 Point",
-            display() {return "+1 Point"},
+            title() {a="+1 Point"
+                if(options.Chinese) a='获得1点数'
+                return a
+            },
+            display() {a="+1 Point"
+                if(options.Chinese) a='获得1点数'
+                return a},
             unlocked(){return hasUpgrade('T',11)},
             canClick() {return player.T.pause.eq(0)},
             onClick() {player.points = player.points.add(1)
@@ -934,6 +986,7 @@ addLayer("T", {
     buyables: {
         11: {
             title(){text = 'Point Producer'
+                if(options.Chinese) text='点数生产器(PP)'
                 text=text+'('+format(getBuyableAmount('T', this.id))
                 if(tmp.T.freePP.neq(0))text=text+' + '+format(tmp.T.freePP)
                 text=text+')'
@@ -950,6 +1003,12 @@ addLayer("T", {
             if(tmp.T.ptGain.gte(tmp.T.softcapstart)) a=a+'After softcap: '+format(tmp.A.realPTgen)+' points/s<br/>'
             if(tmp.T.ptmult.neq(1)) a=a+'Your other effects multiply your point gain by '+format(tmp.T.ptmult)+'.<br>'
             a=a+"Cost: "+format(this.cost())+' points'
+            if(options.Chinese) {a= "每秒生产"+format(tmp.T.PPmult)+"点数<br/>总效果:每秒生产"+format(this.effect())
+                if(buyableEffect('T',13).neq(1)&&!inChallenge('I',23)) a=a+'^'+format(buyableEffect('T',13))+'='+format(tmp.T.ptGain)
+                a=a+"点数<br/>"
+            if(tmp.T.ptGain.gte(tmp.T.softcapstart)) a=a+'软上限后:'+format(tmp.A.realPTgen)+'点数/s<br/>'
+            if(tmp.T.ptmult.neq(1)) a=a+'其他效果也使点数获取x'+format(tmp.T.ptmult)+'.<br>'
+            a=a+"花费:"+format(this.cost())+'点数'}
             return a },
             unlocked() {return hasUpgrade('T', 11)},
             canAfford() { return player.points.gte(this.cost()) },
@@ -972,6 +1031,7 @@ addLayer("T", {
         },
         12: {
             title(){text = 'Point Producer Multiplier'
+                if(options.Chinese) text='点数生产加成器(PPM)'
                 text=text+'('+format(getBuyableAmount('T', this.id))
                 if(tmp.T.freePPM.neq(0))text=text+' + '+format(tmp.T.freePPM)
                 text=text+')'
@@ -989,6 +1049,9 @@ addLayer("T", {
             display() { a= "Add "+format(tmp.T.PPMbase)+" to Point Producer Multiplier<br/>Effect:+ "+format(this.effect())
                 if(tmp.T.PPMexp.neq(1)) a=a+ '^'+format(tmp.T.PPMexp)+'='+format(this.effect().pow(tmp.T.PPMexp))
                 a=a+"x<br/>Cost: "+format(this.cost())+' points'
+                if(options.Chinese){a= "点数生产器效果倍率+"+format(tmp.T.PPMbase)+"<br/>效果:+ "+format(this.effect())
+                if(tmp.T.PPMexp.neq(1)) a=a+ '^'+format(tmp.T.PPMexp)+'='+format(this.effect().pow(tmp.T.PPMexp))
+                a=a+"x<br/>花费:"+format(this.cost())+'点数'}
             return a },
             unlocked() {return hasUpgrade('T', 11)},
             canAfford() { return player.points.gte(this.cost()) },
@@ -1011,6 +1074,7 @@ addLayer("T", {
         },
         13: {
             title(){text = 'Point Exponent Factory'
+                if(options.Chinese) text='点数指数因子(PEF)'
                 text=text+'('+format(getBuyableAmount('T', this.id))
                 if(tmp.T.freePEF.neq(0))text=text+' + '+format(tmp.T.freePEF)
                 text=text+')'
@@ -1034,6 +1098,10 @@ addLayer("T", {
                 if(buyableEffect('T',13).gte(n(1.5).times(tmp.T.PEFmult))) a=a+'(Softcapped)'
                 if(tmp.T.PEFmult.neq(1)) a=a+'x'+format(tmp.T.PEFmult)+'='+format(this.effect(),4)
                 a=a+"<br/>Cost: "+format(this.cost())+' points'
+            if(options.Chinese) {a="点数生产器总效果指数+"+format(tmp.T.PEFbase,4)+"<br/>效果:^"+format(this.effect().div(tmp.T.PEFmult),4)
+                if(buyableEffect('T',13).gte(n(1.5).times(tmp.T.PEFmult))) a=a+'(受软上限限制)'
+                if(tmp.T.PEFmult.neq(1)) a=a+'x'+format(tmp.T.PEFmult)+'='+format(this.effect(),4)
+                a=a+"<br/>花费:"+format(this.cost())+'点数'}
             return a },
             unlocked() {return hasUpgrade('T', 11)},
             canAfford() { return player.points.gte(this.cost()) },
@@ -1055,6 +1123,7 @@ addLayer("T", {
         },
         14: {
             title(){text = 'Timewall Doubler'
+                if(options.Chinese) text='时间墙倍增器(TD)'
                 text=text+'('+format(getBuyableAmount('T', this.id))
                 if(tmp.T.freeTD.neq(0))text=text+' + '+format(tmp.T.freeTD)
                 text=text+')'
@@ -1068,6 +1137,9 @@ addLayer("T", {
             display() { a="Multiply Timewall gain by "+format(tmp.T.TDbase)+" <br/>Effect:"+format(this.effect())+'x'
                 if(buyableEffect(this.layer,this.id).gt(1024)) a=a+'(softcapped)'
                 a=a+"<br/>Cost: "+format(this.cost())+' Timewalls'
+            if(options.Chinese){a="时间墙获取量x"+format(tmp.T.TDbase)+" <br/>效果:"+format(this.effect())+'x'
+                if(buyableEffect(this.layer,this.id).gt(1024)) a=a+'(受软上限限制)'
+                a=a+"<br/>花费:"+format(this.cost())+'时间墙'}
             return a},
             unlocked() {return hasUpgrade('ST', 11)},
             canAfford() { return player.T.points.gte(this.cost()) },
@@ -1090,26 +1162,56 @@ addLayer("T", {
     },
     milestones:{
         0: {
-            requirementDescription: "Buy Upgrade T3-1",
-            effectDescription() {return "Unlock Autobuyers for PP, PPM, and PEF."},
+            requirementDescription() {a="Buy Upgrade T3-1"
+                if(options.Chinese) a='购买升级T3-1'
+                return a
+            },
+            effectDescription() {a= "Unlock Autobuyers for PP, PPM, and PEF."
+                if(options.Chinese) a='解锁PP, PPM和PEF的自动购买器'
+                return a
+            },
             done() { return hasUpgrade('T',31)||hasUpgrade('ST',21) },
             toggles:[["T", "PPauto"],["T", "PPMauto"],["T", "PEFauto"]]
         },
     },
     challenges: {
         11: {
-            name: "Point Crisis",
-            challengeDescription: "Point Exponent Factory effect is multiplied by 0.75.",
-            goalDescription:"1e10 Points",
-            rewardDescription:"Unlock more QqQe308 upgrades.",
+            name() {a="Point Crisis"
+                if(options.Chinese) a='点数危机'
+                return a
+            },
+            challengeDescription() {a="Point Exponent Factory effect is multiplied by 0.75."
+                if(options.Chinese) a='点数指数因子的效果x0.75'
+                return a
+            },
+            goalDescription(){a="1e10 Points"
+                if(options.Chinese) a='1e10点数'
+                return a
+            },
+            rewardDescription(){a="Unlock more QqQe308 upgrades."
+                if(options.Chinese) a='解锁更多的QqQe308升级'
+                return a
+            },
             canComplete: function() {return player.points.gte(1e10)},
             unlocked() {return hasUpgrade('T',34)}
         },
         12: {
-            name: "Anti-Multiplier",
-            challengeDescription: "Point Producer Multiplier is disabled.",
-            goalDescription:"1e23 Points",
-            rewardDescription:"Unlock more QqQe308 upgrades.",
+            name() {a="Anti-Multiplier"
+                if(options.Chinese) a='反加成'
+                return a
+            },
+            challengeDescription() {a="Point Producer Multiplier is disabled."
+                if(options.Chinese) a='点数生产加成器被禁用'
+                return a
+            },
+             goalDescription(){a="1e23 Points"
+                if(options.Chinese) a='1e23点数'
+                return a
+            },
+            rewardDescription(){a="Unlock more QqQe308 upgrades."
+                if(options.Chinese) a='解锁更多的QqQe308升级'
+                return a
+            },
             canComplete: function() {return player.points.gte(1e23)},
             unlocked() {return hasUpgrade('ST',23)}
         },
@@ -1195,6 +1297,10 @@ addLayer("T", {
         if(tmp.T.getResetGain.gte(10)) a=a+'<br>The Timewall gain will be softcapped after 10.(^'+format(tmp.T.timewallscexp)+')'
         if(getBuyableAmount('T',11).gte(400)) a=a+'<br>The Point Producer in the formula will be softcapped after 400.'
         if(getBuyableAmount('T',12).gte(175)) a=a+'<br>The Point Producer Multiplier in the formula will be softcapped after 175.'
+        if(options.Chinese){a="你的时间墙获取量基于你的可购买数量。基础公式: 1.1^(PP-50)x1.5^(PPM-5)x2^(PEF^1.5-1)"
+        if(tmp.T.getResetGain.gte(10)) a=a+'<br>在时间墙获取量达到10后，时间墙获取将受到软上限限制。(^'+format(tmp.T.timewallscexp)+')'
+        if(getBuyableAmount('T',11).gte(400)) a=a+'<br>在超过400后，公式内的PP值将会受软上限限制'
+        if(getBuyableAmount('T',12).gte(175)) a=a+'<br>在超过175后，公式内的PPM值将会受软上限限制'}
         return a
     },
     freePP(){a=n(0)
@@ -1368,48 +1474,72 @@ addLayer("Q", {
     milestones: {
         0: {
             requirementDescription: "1 QqQe308",
-            effectDescription: "Unlock QqQe308 Upgrades.",
+            effectDescription() {a="Unlock QqQe308 Upgrades."
+                if(options.Chinese) a="解锁QqQe308升级"
+                return a
+            },
             done() { return player.Q.points.gte(1) }
         },
         1: {
             requirementDescription: "3 QqQe308",
-            effectDescription: "Autobuyers for PP, PPM, and PEF now buy max.",
+            effectDescription() {a="Autobuyers for PP, PPM, and PEF now buy max."
+                if(options.Chinese) a="自动最大化购买PP, PPM与PEF"
+                return a
+            },
             unlocked(){return hasMilestone('Q',0)},
             done() { return player.Q.points.gte(3) }
         },
         2: {
             requirementDescription: "8 QqQe308",
-            effectDescription: "QqQe308 resets nothing.",
+            effectDescription() {a="QqQe308 resets nothing."
+                if(options.Chinese) a="QqQe308不重置任何东西"
+                return a
+            },
             unlocked(){return hasMilestone('Q',1)},
             done() { return player.Q.points.gte(8) }
         },
         3: {
             requirementDescription: "11 QqQe308",
-            effectDescription: "Autobuyer for QqQe308 now buy max.",
+            effectDescription() {a="Autobuyers for QqQe308 now buy max."
+                if(options.Chinese) a="自动最大化获得QqQe308"
+                return a
+            },
             unlocked(){return hasMilestone('Q',2)},
             done() { return player.Q.points.gte(11) }
         },
         4: {
             requirementDescription: "15 QqQe308",
-            effectDescription: "Autobuyers for Timewall Doubler now buy max.",
+            effectDescription() {a="Autobuyers for Timewall Doubler now buy max."
+                if(options.Chinese) a="自动最大化购买时间墙倍增器"
+                return a
+            },
             unlocked(){return hasMilestone('Q',3)},
             done() { return player.Q.points.gte(15) }
         },
         5: {
             requirementDescription: "75 QqQe308",
-            effectDescription: "Autobuyers for QqQeInfinity now buy max.",
+            effectDescription() {a="Autobuyers for QqQeInfinity now buy max."
+                if(options.Chinese) a="自动最大化获得QqQeInfinity"
+                return a
+            },
             unlocked(){return hasMilestone('Q',4)&&hasMilestone('I',1)},
             done() { return player.Q.points.gte(75)&&hasMilestone('I',1) }
         },
         6: {
             requirementDescription: "80 QqQe308",
-            effectDescription: "Cokecole resets nothing.",
+            effectDescription() {a="Cokecole resets nothing."
+                if(options.Chinese) a="cokecole不重置任何东西"
+                return a
+            },
             unlocked(){return hasMilestone('Q',5)&&hasMilestone('I',2)},
             done() { return player.Q.points.gte(80)&&hasMilestone('I',2) }
         },
         7: {
             requirementDescription: "100 QqQe308",
-            effectDescription: "Autobuyers for cokecole now buy max.",
+            effectDescription() {a="Autobuyers for cokecole now buy max."
+                if(options.Chinese) a="自动最大化获得cokecole"
+                return a
+            },
             unlocked(){return hasMilestone('Q',4)&&hasMilestone('I',2)},
             done() { return player.Q.points.gte(100)&&hasMilestone('I',2) }
         },
@@ -1417,7 +1547,10 @@ addLayer("Q", {
     upgrades: {
         11: {
             title: "Q1-1",
-            description: "Nerf the softcap of T2-1.",
+            description() {a="Nerf the softcap of T2-1."
+                if(options.Chinese) a='削弱升级T2-1的软上限'
+                return a
+            },
             unlocked(){return hasMilestone('Q',0)},
             cost(){
                 a=n(1)
@@ -1425,7 +1558,10 @@ addLayer("Q", {
         },
         12: {
             title: "Q1-2",
-            description: "Multiply Point Producer base effect based on time played.",
+            description() {a="Multiply Point Producer base effect based on time played."
+                if(options.Chinese) a='基于总游玩时间增益点数生产器效果'
+                return a
+            },
             unlocked(){return hasMilestone('Q',0)},
             effect(){a=n(player.timePlayed).log(2).pow(2)
                     return a
@@ -1437,7 +1573,10 @@ addLayer("Q", {
         },
         13: {
             title: "Q1-3",
-            description: "Multiply Point Producer base effect based on best QqQe308.",
+            description() {a="Multiply Point Producer base effect based on best QqQe308."
+                if(options.Chinese) a='基于最佳QqQe308数量增益点数生产器效果'
+                return a
+            },
             unlocked(){return hasChallenge('T',11)},
             effect(){a=player.Q.best.max(1).pow(2)
                 if(hasUpgrade('Q',23)) a=a.pow(2)
@@ -1450,7 +1589,10 @@ addLayer("Q", {
         },
         14: {
             title: "Q1-4",
-            description: "Unlock a new row of timewall upgrades.",
+            description() {a="Unlock a new row of timewall upgrades."
+                if(options.Chinese) a='解锁一行新的时间墙升级'
+                return a
+            },
             unlocked(){return hasChallenge('T',11)},
             effect(){a=n(1)
                     return a
@@ -1462,7 +1604,10 @@ addLayer("Q", {
         },
         21: {
             title: "Q2-1",
-            description: "Multiply Point Producer base effect based on time played since last Super Timewall reset.",
+            description() {a="Multiply Point Producer base effect based on time played since last Super Timewall reset."
+                if(options.Chinese) a='基于上次超级时间墙重置以来经过的时间增益点数生产器效果'
+                return a
+            },
             unlocked(){return hasChallenge('T',12)},
             effect(){a=n(player.ST.resetTime).add(1)
                     return a
@@ -1474,7 +1619,10 @@ addLayer("Q", {
         },
         22: {
             title: "Q2-2",
-            description: "S1-2 effect is squared.",
+            description() {a="S1-2 effect is squared."
+                if(options.Chinese) a='升级S1-2的效果变为原来的平方'
+                return a
+            },
             unlocked(){return hasChallenge('T',12)},
             effect(){a=n(2)
                     return a
@@ -1486,7 +1634,10 @@ addLayer("Q", {
         },
         23: {
             title: "Q2-3",
-            description: "Multiply Timewall gain based on best QqQe308, and Q1-3 effect is squared.",
+            description() {a="Multiply Timewall gain based on best QqQe308, and Q1-3 effect is squared."
+                if(options.Chinese) a='基于最佳QqQe308增益时间墙获取，升级Q1-3的效果变为原来的平方'
+                return a
+            },
             unlocked(){return hasChallenge('T',12)},
             effect(){a=player.Q.best.max(1).pow(2)
                     return a
@@ -1502,6 +1653,10 @@ addLayer("Q", {
                 if(!hasUpgrade('ST',34)) a=a+'???'
                 if(hasUpgrade('ST',34)) a=a+'QqQeInfinity'
                 a=a+"."
+                if(options.Chinese) {a='基于'
+                    if(!hasUpgrade('ST',34)) a=a+'???'
+                if(hasUpgrade('ST',34)) a=a+'QqQeInfinity'
+                a=a+'增益点数生产器效果'}
             return a},
             unlocked(){return hasChallenge('T',12)},
             effect(){a=n(player.Qi.points).add(1).pow(10)
@@ -2806,7 +2961,7 @@ addLayer("MT", {
         //if(getBuyableAmount('T',11).gte(400)) a=a+'<br>The Point Producer in the formula will be softcapped after 400.'
         return a
     },
-    challengetip(){a="Unlike other challenges, MT-Challenge can be completed infinitely. You can gain completions automatically without exiting it."
+    challengetip(){a="Unlike other challenges, MT-Challenge can be completed infinitely. You can gain completions automatically without exiting it.<br>You have completed "+format(tmp.MT.totalcomp)+' MT-Challenges.'
         return a
     },
     totalcomp(){a=n(0)
@@ -4869,4 +5024,81 @@ addLayer("qa", {
         if(inChallenge('I',27)) a=a.times(0.5)
         return a
     }
+})
+
+addLayer("E", {
+    name: "Eternity", // This is optional, only used in a few places, If absent it just uses the layer id.
+    symbol: "E", // This appears on the layer's node. Default is the id with the first letter capitalized
+    position: 1, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+    startData() { return {
+        unlocked: true,
+		points: new Decimal(0),
+        etr: n(0),
+        best:n(0),
+        total:n(0),
+        resetTime: 0,
+        bestTime:n(1e300),
+    }},
+    color: "#b743d1",
+    requires(){a = n(2).pow(1024)
+        return a
+    }, // Can be a function that takes requirement increases into account
+    resource: "Eternity Points", // Name of prestige currency
+    baseResource: "Infinity Points", // Name of resource prestige is based on
+    baseAmount() {return player.I.points}, // Get the current amount of baseResource
+    type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
+    exponent() {a=n(10).log(2).div(1024).toNumber()
+        return a
+    }, // Prestige currency exponent
+    gainMult() { // Calculate the multiplier for main currency from bonuses
+        mult = new Decimal(1)
+        return mult
+    },
+    gainExp() { // Calculate the exponent on main currency from bonuses
+        exp = new Decimal(1)
+        return exp
+    },
+    directMult() {a = n(1)
+            return a
+    },
+    canReset() {return player.I.points.gte(n(2).pow(1024))},//&&(player.I.points.lt(n(2).pow(1024)))
+    update(diff){
+        
+    },
+    row: 5, // Row the layer is in on the tree (0 is the first row)
+    hotkeys: [
+        {key: "e",
+        description: "E: Eternity",
+        onPress(){if (canReset(this.layer)) doReset(this.layer)},
+        unlocked(){return hasAchievement('A',135)}},
+    ],
+    layerShown(){return hasAchievement('A',135)},
+    branches: ['I'],
+    doReset(resettingLayer) {
+        if (layers[resettingLayer].row == 5) {
+            let kept = []
+            layerDataReset(this.layer, kept)
+    }
+    },
+    autoUpgrade() {return false},
+    passiveGeneration()
+    {
+        mult = 0
+        return mult
+    },
+    onPrestige(gain){
+        
+    },
+    tabFormat: {
+   "Eternity Milestones": {
+        content: [ "main-display","prestige-button","resource-display"
+    ],
+    },
+    },
+    doReset(resettingLayer) {
+        if (layers[resettingLayer].row > 5) {
+    let kept = []
+    layerDataReset(this.layer, kept)
+       }
+    },
 })

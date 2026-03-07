@@ -15,7 +15,8 @@ function getStartOptions() {
 		oldStyle: false,
 		forceTooltips: true,
 		hideMilestonePopups: false,
-		hideSaveNotifications: true
+		hideSaveNotifications: true,
+		Chinese: false,
 	}
 }
 

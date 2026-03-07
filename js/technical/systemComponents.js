@@ -174,6 +174,7 @@ var systemComponents = {
 			<tr>
                 <td><button class="opt" onclick="toggleOpt('hideMilestonePopups')">Show Milestone Popups: {{ formatOption(!options.hideMilestonePopups) }}</button></td>
 				<td><button class="opt" onclick="toggleOpt('hideSaveNotifications')">Show Save Notifications: {{ formatOption(!options.hideSaveNotifications) }}</button></td>
+				<td><button class="opt" onclick="toggleOpt('Chinese')">Language: {{ options.Chinese?"Chinese (incompleted)":"English" }}</button></td>
             </tr>
         </table>`
     },
