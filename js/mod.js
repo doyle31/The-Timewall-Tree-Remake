@@ -3,7 +3,7 @@ let modInfo = {
 	author: "QqQeInfinity & DeFe308",
 	id: "timewall remake",
 	pointsName: "points",
-	modFiles: ["layers.js", "tree.js"],
+	modFiles: ["layers.js", "tree.js", "Eternity.js"],
 
 	discordName: "",
 	discordLink: "",
@@ -13,8 +13,8 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "1.2.2",
-	name: "Translation Update (Part. II)",
+	num: "1.2.3",
+	name: "Small Update",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
@@ -85,7 +85,10 @@ let changelog = `<h1>Changelog:</h1><br>
 		- Added a softcap to Q1-3 Boost and Q2-3 Boost.(After 5000 QqQe308)<br>
 		Chinese version:<br>
 		- 完成了ST，Qi，MT, Co四个层级的翻译<br>
-		- 为Q1-3 Boost和Q2-3 Boost效果增加了软上限（始于5000 QqQe308）`
+		- 为Q1-3 Boost和Q2-3 Boost效果增加了软上限（始于5000 QqQe308）<br>
+	<h3>v1.2.3 Small Update 2026/3/15~2026/3/21</h3><br>
+		- Fixed some bugs and some small changes.<br>
+		- Added some features of the new layer.<br>`
 
 let winText = `Congratulations! You have reached the end and beaten this game, but for now...`
 

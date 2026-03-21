@@ -45,7 +45,7 @@ addLayer("A", {
         "milestones",
     ],},
     },
-    effectDescription(){return ' and there are 65 in total.'},
+    effectDescription(){return ' and there are 75 in total.'},
     achievements: {
         11: {
      name() {return "First Point"},
@@ -567,12 +567,21 @@ addLayer("A", {
      tooltip() {return "Reach 1.80e308 Infinity Points."}, 
      textStyle: {'color': '#ffe125'},
         },
+        141: {
+     name(){return "v2.0 is now!"},
+     done() {return player.E.etr.gte(1)}, 
+     unlocked(){return player.A.points.gte(65)},
+     onComplete() {player.A.points = player.A.points.add(1)},
+     tooltip() {return "Eternity."}, 
+     textStyle: {'color': '#ffe125'},
+        },
     },
     milestones:{
         0: {
             requirementDescription: "Speed-up",
             effectDescription() {a='balanced'
                 if(hasMilestone('A',1)) a='possibly balanced'
+                if(hasAchievement('A',141)) a='possibly unbalanced'
                 b= "The Game is too Slow? Use this to speed it up! Anyhow, I promise this game is "+a+" at normal speed. The buttons reffer to +1x,+2x,+4x speed, you can speed the game up to 8x."
             return b},
             done() { return true },
@@ -730,6 +739,10 @@ addLayer("T", {
     if(hasUpgrade('I',14)) kept.push('milestones')
     layerDataReset(this.layer, kept)
        }
+       if (layers[resettingLayer].row == 5) {
+    let kept = []
+    layerDataReset(this.layer, kept)
+       }
     },
     update(diff){
         player.devSpeed = tmp.A.devSpeedCal
@@ -759,7 +772,7 @@ addLayer("T", {
         if(hasUpgrade('ST',24)) mult=mult.add(0.5)
         if(hasUpgrade('I',14)) mult=mult.add(0.5)
         mult = mult.times(tmp.A.IC8eff)
-        //mult=n('1e1000')
+        mult=mult.times(tmp.E.TSeffect)
         return mult
     },
     autoUpgrade() { return hasMilestone('I',0)&&player.I.TUauto},
@@ -952,6 +965,50 @@ addLayer("T", {
                 a=n(1e12)
             return a},
         },
+        51: {
+            title: "T5-1",
+            description() {a="Point Producer cost scaling 1.10x -> 1.085x"
+                if(options.Chinese) a='点数生产器花费折算降低为1.085x（原1.10x）'
+                return a
+            },
+            unlocked(){return hasUpgrade('T',41)&&hasUpgrade('T',42)&&hasUpgrade('T',43)&&hasUpgrade('T',44)&&player.E.etr.gte(1)},
+            cost(){
+                a=n(1e15)
+            return a},
+        },
+        52: {
+            title: "T5-2",
+            description() {a="Unlock the 3rd T-Challenge."
+                if(options.Chinese) a='解锁第三个时间墙挑战'
+                return a
+            },
+            unlocked(){return hasUpgrade('T',41)&&hasUpgrade('T',42)&&hasUpgrade('T',43)&&hasUpgrade('T',44)&&player.E.etr.gte(1)},
+            cost(){
+                a=n(1e50)
+            return a},
+        },
+        53: {
+            title: "T5-3",
+            description() {a="Multiply Point Exponent Factory effect by 1.005, ignoring softcap."
+                if(options.Chinese) a='使点数指数因子效果x1.005，无视软上限'
+                return a
+            },
+            unlocked(){return hasUpgrade('T',41)&&hasUpgrade('T',42)&&hasUpgrade('T',43)&&hasUpgrade('T',44)&&player.E.etr.gte(1)},
+            cost(){
+                a=n(1e150)
+            return a},
+        },
+        54: {
+            title: "T5-4",
+            description() {a="Timewall Doubler effect softcap starts at 1.33e154 now."
+                if(options.Chinese) a='时间墙倍增器效果软上限现在开始于1.33e154'
+                return a
+            },
+            unlocked(){return hasUpgrade('T',41)&&hasUpgrade('T',42)&&hasUpgrade('T',43)&&hasUpgrade('T',44)&&player.E.etr.gte(1)},
+            cost(){
+                a=n(1e308)
+            return a},
+        },
     },
     clickables:{
         11: {
@@ -994,6 +1051,7 @@ addLayer("T", {
             },
             cost(x) { a= new Decimal(1.15).pow(x).times(25)
                 if(hasUpgrade('T',41))a= new Decimal(1.1).pow(x).times(25)
+                if(hasUpgrade('T',51))a= new Decimal(1.085).pow(x).times(25)
                     return a
              },
             effect(x) {return x.add(tmp.T.freePP).times(tmp.T.PPmult)},
@@ -1007,7 +1065,7 @@ addLayer("T", {
                 if(buyableEffect('T',13).neq(1)&&!inChallenge('I',23)) a=a+'^'+format(buyableEffect('T',13))+'='+format(tmp.T.ptGain)
                 a=a+"点数<br/>"
             if(tmp.T.ptGain.gte(tmp.T.softcapstart)) a=a+'软上限后:'+format(tmp.A.realPTgen)+'点数/s<br/>'
-            if(tmp.T.ptmult.neq(1)) a=a+'其他效果也使点数获取x'+format(tmp.T.ptmult)+'.<br>'
+            if(tmp.T.ptmult.neq(1)) a=a+'其他效果使点数获取x'+format(tmp.T.ptmult)+'<br>'
             a=a+"花费:"+format(this.cost())+'点数'}
             return a },
             unlocked() {return hasUpgrade('T', 11)},
@@ -1024,6 +1082,7 @@ addLayer("T", {
 					if (!this.canAfford()) return;
 					let tempBuy = player.points.max(25).div(25).log(1.15)
                     if(hasUpgrade('T',41)) tempBuy = player.points.max(25).div(25).log(1.1)
+                    if(hasUpgrade('T',51)) tempBuy = player.points.max(25).div(25).log(1.085)
 					//if (tempBuy.gte(25)) tempBuy = tempBuy.times(625).cbrt();
 					let target = tempBuy.plus(1).floor();
 					player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].max(target);
@@ -1096,7 +1155,7 @@ addLayer("T", {
             },
             display() { a="Add "+format(tmp.T.PEFbase,4)+" to Point Producer Effect Exponent<br/>Effect:^"+format(this.effect().div(tmp.T.PEFmult),4)
                 if(buyableEffect('T',13).gte(n(1.5).times(tmp.T.PEFmult))) a=a+'(Softcapped)'
-                if(tmp.T.PEFmult.neq(1)) a=a+'x'+format(tmp.T.PEFmult)+'='+format(this.effect(),4)
+                if(tmp.T.PEFmult.neq(1)) a=a+'x'+format(tmp.T.PEFmult,4)+'='+format(this.effect(),4)
                 a=a+"<br/>Cost: "+format(this.cost())+' points'
             if(options.Chinese) {a="点数生产器总效果指数+"+format(tmp.T.PEFbase,4)+"<br/>效果:^"+format(this.effect().div(tmp.T.PEFmult),4)
                 if(buyableEffect('T',13).gte(n(1.5).times(tmp.T.PEFmult))) a=a+'(受软上限限制)'
@@ -1131,7 +1190,9 @@ addLayer("T", {
             },
             cost(x) { return new Decimal(10).pow(x.add(1)) },
             effect(x) {a=tmp.T.TDbase.pow(x.add(tmp.T.freeTD))
-                if(a.gte(1024)) a=n(2).pow(a.log(2).div(10).pow(0.5).times(10))
+                b=n(1024)
+                if(hasUpgrade('T',54)) b=n(2).pow(512)
+                if(a.gte(b)) a=n(2).pow(a.log(2).div(b.log(2)).pow(0.5).times(b.log(2)))
                     return a
             },
             display() { a="Multiply Timewall gain by "+format(tmp.T.TDbase)+" <br/>Effect:"+format(this.effect())+'x'
@@ -1215,6 +1276,26 @@ addLayer("T", {
             canComplete: function() {return player.points.gte(1e23)},
             unlocked() {return hasUpgrade('ST',23)}
         },
+        13: {
+            name() {a="Point Crisis III"
+                if(options.Chinese) a='点数危机 III'
+                return a
+            },
+            challengeDescription() {a="Point Exponent Factory effect is multiplied by 0.1, ignoring softcap."
+                if(options.Chinese) a='点数指数因子的效果x0.1，无视软上限'
+                return a
+            },
+            goalDescription(){a="1e10 Points"
+                if(options.Chinese) a='1e10点数'
+                return a
+            },
+            rewardDescription(){a="Unlock more QqQe308 upgrades."
+                if(options.Chinese) a='解锁更多的QqQe308升级'
+                return a
+            },
+            canComplete: function() {return player.points.gte(1e10)},
+            unlocked() {return hasUpgrade('T',52)}
+        },
     },
     PPmult(){a=n(1)
         a=a.times(buyableEffect('T',12).pow(tmp.T.PPMexp).add(1))
@@ -1287,6 +1368,7 @@ addLayer("T", {
     },
     PEFmult(){a=n(1)
         if(hasChallenge('I',24)) a=a.times(1.05)
+        if(hasUpgrade('T',53)) a=a.times(1.005)
         return a
     },
     TDbase(){a=n(2)
@@ -1365,6 +1447,7 @@ addLayer("T", {
     },
     ptmult(){a=n(1)
         a=a.times(tmp.A.IC8eff)
+        a=a.times(tmp.E.TSeffect)
         return a
     },
 })
@@ -1462,6 +1545,10 @@ addLayer("Q", {
     let kept = []
     if(getClickableState('Q',31)==0) kept.push('clickables')
     if(hasUpgrade('I',14)) kept.push('milestones')
+    layerDataReset(this.layer, kept)
+       }
+       if (layers[resettingLayer].row == 5) {
+    let kept = []
     layerDataReset(this.layer, kept)
        }
     },
@@ -1563,7 +1650,7 @@ addLayer("Q", {
                 return a
             },
             unlocked(){return hasMilestone('Q',0)},
-            effect(){a=n(player.timePlayed).log(2).pow(2)
+            effect(){a=n(player.timePlayed).times(tmp.E.TSeffect).log(2).pow(2)
                     return a
             },
             effectDisplay(){return format(this.effect())+'x'},
@@ -1609,7 +1696,7 @@ addLayer("Q", {
                 return a
             },
             unlocked(){return hasChallenge('T',12)},
-            effect(){a=n(player.ST.resetTime).add(1)
+            effect(){a=n(player.ST.resetTime).times(tmp.E.TSeffect).add(1)
                     return a
             },
             effectDisplay(){return format(this.effect())+'x'},
@@ -1686,7 +1773,7 @@ addLayer("Q", {
                 a=a+"<br><br>Requirement: "+format(tmp.Q.boostedQU.add(1),0)+' Q-Upgrade Booster(s)'
                 return a
             },
-            effect(){a=n(player.timePlayed).pow(50)
+            effect(){a=n(player.timePlayed).times(tmp.E.TSeffect).pow(50)
                 return a
             },
             unlocked(){return hasUpgrade('I',171)},
@@ -1702,7 +1789,7 @@ addLayer("Q", {
                 return a
             },
             effect(){b=player.Q.best
-                if(b.gte(5000)) b=b.sub(5000).pow(0.4).add(5000)
+                if(b.gte(5000)) b=b.sub(4999).log(n(1.5).pow(0.5)).add(5000)
                 a=n(1.5).pow(b)
                 if(getClickableState('Q',23)==1) a=a.pow(1.1)
                 return a
@@ -1729,7 +1816,7 @@ addLayer("Q", {
                 a=a+"<br><br>Requirement: "+format(tmp.Q.boostedQU.add(1),0)+' Q-Upgrade Booster(s)'
                 return a
             },
-            effect(){a=n(10).pow(n(player.ST.resetTime).pow(1.5)).min('1e343')
+            effect(){a=n(10).pow(n(player.ST.resetTime).times(tmp.E.TSeffect).pow(1.5)).min('1e343')
                 return a
             },
             unlocked(){return hasUpgrade('I',171)},
@@ -1756,7 +1843,7 @@ addLayer("Q", {
                 return a
             },
             effect(){b=player.Q.best
-                if(b.gte(5000)) b=b.sub(5000).pow(0.4).add(5000)
+                if(b.gte(5000)) b=b.sub(4999).log(n(1.5).pow(0.5)).add(5000)
                 a=n(1.5).pow(b.times(0.5))
                 return a
             },
@@ -1895,6 +1982,10 @@ addLayer("ST", {
     if(hasUpgrade('I',24)) kept.push('milestones')
     layerDataReset(this.layer, kept)
        }
+       if (layers[resettingLayer].row == 5) {
+    let kept = []
+    layerDataReset(this.layer, kept)
+       }
     },
     autoUpgrade() {return (hasMilestone('co',1)&&player.co.STupgauto)||(hasMilestone('I',1)&&player.I.STUauto)},
     passiveGeneration()
@@ -1903,6 +1994,7 @@ addLayer("ST", {
         if(hasMilestone('co',1)) mult=n(0.5)
         if(hasUpgrade('I',24)) mult=mult.add(0.5)
         mult = mult.times(tmp.A.IC8eff)
+        mult=mult.times(tmp.E.TSeffect)
         return mult
     },
     branches: ['T','Q'],
@@ -2397,6 +2489,10 @@ addLayer("Qi", {
     if(hasUpgrade('I',34)) kept.push('clickables')
     layerDataReset(this.layer, kept)
        }
+       if (layers[resettingLayer].row == 5) {
+    let kept = []
+    layerDataReset(this.layer, kept)
+       }
     },
     autoPrestige() {a = (hasMilestone('co',0)&&player.co.Qiauto)||(hasMilestone('I',1)&&player.I.Qiauto)
         return a
@@ -2607,6 +2703,7 @@ addLayer("Qi", {
         if(hasUpgrade('I',142)) a=a.times(upgradeEffect('I',142))
         if(hasUpgrade('Q',24)&&!inChallenge('MT',13)&&getClickableState('Q',24)==1) a=a.times(clickableEffect('Q',24))
         a=a.times(tmp.A.IC8eff)
+        a=a.times(tmp.E.TSeffect)
         a=a.times(buyableEffect('qa',12))
         return a
     },
@@ -2631,6 +2728,7 @@ addLayer("Qi", {
         if(hasUpgrade('I',142)) a=a.times(upgradeEffect('I',142))
         if(hasUpgrade('Q',24)&&!inChallenge('MT',13)&&getClickableState('Q',24)==1) a=a.times(clickableEffect('Q',24))
         a=a.times(tmp.A.IC8eff)
+    a=a.times(tmp.E.TSeffect)
         a=a.times(buyableEffect('qa',12))
         return a
     },
@@ -2651,6 +2749,7 @@ addLayer("Qi", {
         if(hasChallenge('I',26)) a=a.times(challengeEffect('I',26))
         if(hasUpgrade('I',143)) a=a.times(upgradeEffect('I',143))
         if(hasUpgrade('Q',24)&&!inChallenge('MT',13)&&getClickableState('Q',24)==1) a=a.times(clickableEffect('Q',24))
+            a=a.times(tmp.E.TSeffect)
         return a
     },
     qaqe308eff(){a=tmp.Qi.effqaqe308.add(1).pow(10)
@@ -2726,6 +2825,7 @@ addLayer("MT", {
         if(hasMilestone('MT',0)) mult=mult.times(tmp.MT.mil0effect2)
         if(hasUpgrade('I',62)) mult=mult.add(0.5)
         mult = mult.times(tmp.A.IC8eff)
+        mult=mult.times(tmp.E.TSeffect)
         return mult
     },
     update(diff){
@@ -2770,6 +2870,10 @@ addLayer("MT", {
         if (layers[resettingLayer].row == 4) {
     let kept = []
     if(hasUpgrade('I',34)) kept.push('milestones')
+    layerDataReset(this.layer, kept)
+       }
+       if (layers[resettingLayer].row == 5) {
+    let kept = []
     layerDataReset(this.layer, kept)
        }
     },
@@ -2855,7 +2959,7 @@ addLayer("MT", {
                 return a
             },
             unlocked(){return hasUpgrade('MT',11)&&hasUpgrade('MT',12)&&hasUpgrade('MT',13)&&hasUpgrade('MT',14)},
-            effect(){a=n(player.MT.resetTime).add(1)
+            effect(){a=n(player.MT.resetTime).times(tmp.E.TSeffect).add(1)
                 return a
             },
             effectDisplay(){return format(this.effect())+'x'},
@@ -3136,6 +3240,7 @@ addLayer("MT", {
             },
             challengeDescription() {a="All of QqQe308 upgrades except Q1-4 is disabled, and you can't generate Super-QqQe308.<br/>Completion: "+format(n(challengeCompletions(this.layer,this.id)))+'/Infinity'
                 if(options.Chinese) a="除Q1-4外，所有QqQe308升级被禁用，且你不能超QqQe308<br/>完成次数: "+format(n(challengeCompletions(this.layer,this.id)))+'/Infinity'
+                return a
             },
             goal(){
                 a=n(10).pow(n(challengeCompletions(this.layer,this.id)).times(5).add(120))
@@ -3350,6 +3455,10 @@ addLayer("co", {
     if(hasUpgrade('I',34)) kept.push('milestones')
     layerDataReset(this.layer, kept)
        }
+       if (layers[resettingLayer].row == 5) {
+    let kept = []
+    layerDataReset(this.layer, kept)
+       }
     },
     autoPrestige() {a = hasMilestone('I',2)&&player.I.Coauto
         return a
@@ -3477,12 +3586,6 @@ addLayer("I", {
     ],
     layerShown(){return hasAchievement('A',65)},
     branches: ['MT'],
-    doReset(resettingLayer) {
-        if (layers[resettingLayer].row == 5) {
-            let kept = []
-            layerDataReset(this.layer, kept)
-    }
-    },
     autoUpgrade() {return false},
     passiveGeneration()
     {
@@ -3561,7 +3664,7 @@ addLayer("I", {
             title: "I1-1",
             description: "Multiply Point Producer base effect based on times played.",
             effect() {
-                return n(player.timePlayed).add(1).pow(0.25)
+                return n(player.timePlayed).times(tmp.E.TSeffect).add(1).pow(0.25)
             },
             effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" },
             cost: new Decimal(0.5),
@@ -3644,7 +3747,7 @@ addLayer("I", {
             title: "I1-3",
             description: "Multiply Point Producer base effect based on times in this Infinity.",
             effect() {
-                return n(player.I.resetTime).add(1).pow(0.4)
+                return n(player.I.resetTime).times(tmp.E.TSeffect).add(1).pow(0.4)
             },
             effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" },
             cost: new Decimal(1),
@@ -4776,7 +4879,7 @@ addLayer("I", {
     },
     IUtip(){a='You have gone Infinity '+format(player.I.inf)+' times.<br/>'
         a=a+'You have spent '+formatTime(player.I.resetTime)+' in this Infinity.<br/>'
-        a=a+'Your best Infinity time is '+formatTime(player.I.bestTime)+'.<br/>'
+        a=a+'Your best Infinity time is '+formatTime(player.I.bestTime)+'.(The first Infinity is not counted in)<br/>'
         a=a+'You will gain '+format(tmp.I.infgain)+' Infinity(ies) on reset.<br>'
         a=a+'Upgrade order: Ix-y -> I(x+1)-y<br/>buying 16 I-Upgrades will give you a "IP Doubler" buyable.'
         return a
@@ -4906,6 +5009,7 @@ addLayer("I", {
     },
     ipowmult(){a=n(1)
         a=a.times(tmp.A.IC8eff)
+        a=a.times(tmp.E.TSeffect)
         return a
     },
     CTgain(){a=n(0)
@@ -4919,6 +5023,7 @@ addLayer("I", {
         if(hasUpgrade('I',152)) a=a.times(upgradeEffect('I',152))
         if(hasUpgrade('I',153)) a=a.times(upgradeEffect('I',153))
         if(getBuyableAmount('I',61).gte(8)) a=a.times(tmp.I.QUBFeff)
+        a=a.times(tmp.E.TSeffect)
         return a
     },
     TPeff(){a=player.I.tpower.add(2).log(2).pow(2)
@@ -4942,6 +5047,7 @@ addLayer("I", {
         if(hasUpgrade('I',172)) a=a.times(10)
         if(hasUpgrade('I',173)) a=a.times(5)
         if(hasUpgrade('I',174)) a=a.times(upgradeEffect('I',174))
+        a=a.times(tmp.E.TSeffect)
         return a
     },
     QUBFeff(){a=player.I.QUBF
@@ -5340,6 +5446,7 @@ addLayer("qa", {
         if(hasChallenge('I',27)) a=a.times(challengeEffect('I',27))
         if(hasUpgrade('I',144)) a=a.times(upgradeEffect('I',144))
         if(hasUpgrade('I',173)) a=a.times(5)
+        a=a.times(tmp.E.TSeffect)
             return a
     },
     effbase(){a=n(2)
@@ -5356,81 +5463,4 @@ addLayer("qa", {
         if(inChallenge('I',27)) a=a.times(0.5)
         return a
     }
-})
-
-addLayer("E", {
-    name: "Eternity", // This is optional, only used in a few places, If absent it just uses the layer id.
-    symbol: "E", // This appears on the layer's node. Default is the id with the first letter capitalized
-    position: 1, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
-    startData() { return {
-        unlocked: true,
-		points: new Decimal(0),
-        etr: n(0),
-        best:n(0),
-        total:n(0),
-        resetTime: 0,
-        bestTime:n(1e300),
-    }},
-    color: "#b743d1",
-    requires(){a = n(2).pow(1024)
-        return a
-    }, // Can be a function that takes requirement increases into account
-    resource: "Eternity Points", // Name of prestige currency
-    baseResource: "Infinity Points", // Name of resource prestige is based on
-    baseAmount() {return player.I.points}, // Get the current amount of baseResource
-    type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
-    exponent() {a=n(10).log(2).div(1024).toNumber()
-        return a
-    }, // Prestige currency exponent
-    gainMult() { // Calculate the multiplier for main currency from bonuses
-        mult = new Decimal(1)
-        return mult
-    },
-    gainExp() { // Calculate the exponent on main currency from bonuses
-        exp = new Decimal(1)
-        return exp
-    },
-    directMult() {a = n(1)
-            return a
-    },
-    canReset() {return player.I.points.gte(n(2).pow(1024))},//&&(player.I.points.lt(n(2).pow(1024)))
-    update(diff){
-        
-    },
-    row: 5, // Row the layer is in on the tree (0 is the first row)
-    hotkeys: [
-        {key: "e",
-        description: "E: Eternity",
-        onPress(){if (canReset(this.layer)) doReset(this.layer)},
-        unlocked(){return hasAchievement('A',135)}},
-    ],
-    layerShown(){return hasAchievement('A',135)},
-    branches: ['I'],
-    doReset(resettingLayer) {
-        if (layers[resettingLayer].row == 5) {
-            let kept = []
-            layerDataReset(this.layer, kept)
-    }
-    },
-    autoUpgrade() {return false},
-    passiveGeneration()
-    {
-        mult = 0
-        return mult
-    },
-    onPrestige(gain){
-        
-    },
-    tabFormat: {
-   "Eternity Milestones": {
-        content: [ "main-display","prestige-button","resource-display"
-    ],
-    },
-    },
-    doReset(resettingLayer) {
-        if (layers[resettingLayer].row > 5) {
-    let kept = []
-    layerDataReset(this.layer, kept)
-       }
-    },
 })
