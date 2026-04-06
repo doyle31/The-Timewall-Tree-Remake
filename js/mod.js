@@ -13,8 +13,8 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "1.2.3",
-	name: "Small Update",
+	num: "2.0",
+	name: "Eternity Update",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
@@ -88,7 +88,19 @@ let changelog = `<h1>Changelog:</h1><br>
 		- 为Q1-3 Boost和Q2-3 Boost效果增加了软上限（始于5000 QqQe308）<br>
 	<h3>v1.2.3 Small Update 2026/3/15~2026/3/21</h3><br>
 		- Fixed some bugs and some small changes.<br>
-		- Added some features of the new layer.<br>`
+		- Added some features of the new layer.<br>
+	<h3>v2.0 Eternity Update 2026/3/28~2026/4/5</h3><br>
+		- Added Eternity layer, with 16 Milestones, an Upgrade tree and Timeshard!<br>
+		- Added DeFe308 layer, with 1 Milestone.<br>
+		- Added more contents in Timewall layer.<br>
+		- Some other changes.<br>
+		- Endgame: 1 DeFe308<br>
+		Chinese version:<br>
+		- 增加永恒层级，包括16个里程碑，一个升级树与时间碎片<br>
+		- 增加DeFe308层级，包括1个里程碑<br>
+		- 在时间墙层级增加了更多的内容<br>
+		- 一些其他更改<br>
+		- 终局: 1 DeFe308<br>`
 
 let winText = `Congratulations! You have reached the end and beaten this game, but for now...`
 
@@ -126,9 +138,8 @@ function addedPlayerData() { return {
 var displayThings = [
 	function(){a='Progress to Infinity:'+format(tmp.A.ProgressToInf)+'%<br/>'
 		if(hasUpgrade('I',51)) {a='Progress to Eternity:'+format(tmp.A.ProgressToEtr)+'%'
-			//if(tmp.A.ProgressToEtr.gte(50)) a=a+'(softcapped)'
 			a=a+'<br/>'}
-			if(tmp.A.ProgressToEtr.gte(100)) a=a+"You have reached the Endgame!"
+			//if(tmp.A.ProgressToEtr.gte(100)) a=a+"You have reached the Endgame!"
 		if(tmp.A.ProgressToInf.gte(100)&&!hasUpgrade('I',51)) a=a+"You can't gain more points after 1.80e308!"
 		if(tmp.T.ptGain.gte(tmp.T.softcapstart)&&getPointGen().neq(NaN)) a=a+'<br/><br/><br/>After '+format(tmp.T.softcapstart)+' points/s, your point gain will be softcapped!(^'+format(tmp.T.softcapexp)+')'
 		return a
@@ -138,7 +149,7 @@ var displayThings = [
 // Determines when the game "ends"
 function isEndgame() {
 	//return hasUpgrade('ST',54)
-	return false
+	return player.df.points.gte(1)
 	//return player.points.gte(new Decimal("e280000000"))
 }
 
